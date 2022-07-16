@@ -19,7 +19,7 @@ return new class extends Migration {
             $table->string('book_name');
             $table->integer('number_of_pages');
             $table->string('publisher');
-            $table->timestamps();
+            $table->timestamp('created_at');
         });
     }
 
