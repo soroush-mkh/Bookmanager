@@ -20,5 +20,7 @@ use Illuminate\Support\Facades\Route;
     return $request->user();
 });*/
 
-
-Route::apiResource('authors' , AuthorController::class);
+Route::prefix('v1')->group(function ()
+{
+    Route::apiResource('authors' , AuthorController::class);
+});

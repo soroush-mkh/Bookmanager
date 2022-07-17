@@ -9,6 +9,8 @@ class Book extends Model
 {
     use HasFactory;
 
+    public $timestamps = FALSE;
+
     protected $fillable = [
         'author_id' ,
         'book_name' ,

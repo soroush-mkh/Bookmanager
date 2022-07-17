@@ -9,6 +9,10 @@ class Author extends Model
 {
     use HasFactory;
 
+    public $timestamps = FALSE;
+
+    protected $hidden = [ 'id' ];
+
     protected $fillable = [
         'first_name' ,
         'last_name' ,

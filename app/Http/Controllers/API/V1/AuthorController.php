@@ -3,8 +3,12 @@
 namespace App\Http\Controllers\API\V1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\AuthorRequest;
 use App\Models\Author;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class AuthorController extends Controller
 {
@@ -29,8 +33,26 @@ class AuthorController extends Controller
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store ( Request $request )
+    public function store ( AuthorRequest $request )
     {
+        //return $request->first_name . '-' . $request->last_name . '-' . $request->email . '-' . $request->password;
+        //Create Author
+        $author = new Author;
+
+        $author->first_name = $request->first_name;
+        $author->last_name  = $request->last_name;
+        $author->email      = $request->email;
+        $author->password   = Hash::make($request->password);
+
+
+        //Save Data
+        $author->save();
+
+        // Send Response
+        return response()->json([
+            'status'  => TRUE ,
+            'message' => 'Author Created Successfully' ,
+        ] , JsonResponse::HTTP_OK);
 
     }
 
@@ -42,7 +64,10 @@ class AuthorController extends Controller
      */
     public function show ( Author $author )
     {
-        //
+        //Return Data
+        return response()->json([
+            'data' => $author ,
+        ] , JsonResponse::HTTP_OK);
     }
 
     /**
@@ -52,9 +77,22 @@ class AuthorController extends Controller
      * @param \App\Models\Author       $author
      * @return \Illuminate\Http\Response
      */
-    public function update ( Request $request , Author $author )
+    public function update ( AuthorRequest $request , Author $author )
     {
-        //
+        //Update Author
+        $author->update([
+            'first_name' => $request->first_name ,
+            'last_name'  => $request->last_name ,
+            'email'      => $request->email ,
+            'password'   => Hash::make($request->password) ,
+
+        ]);
+
+        // Send Response
+        return response()->json([
+            'status'  => TRUE ,
+            'message' => 'Author Updated Successfully' ,
+        ] , JsonResponse::HTTP_OK);
     }
 
     /**
@@ -65,6 +103,13 @@ class AuthorController extends Controller
      */
     public function destroy ( Author $author )
     {
-        //
+        //Delete Author
+        $author->delete();
+
+        // Send Response
+        return response()->json([
+            'status'  => TRUE ,
+            'message' => 'Author Deleted Successfully' ,
+        ] , JsonResponse::HTTP_OK);
     }
 }
