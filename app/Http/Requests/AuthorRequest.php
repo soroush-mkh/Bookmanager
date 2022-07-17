@@ -30,6 +30,7 @@ class AuthorRequest extends FormRequest
             'last_name'  => 'required|min:2|max:50|string' ,
             'email'      => [ 'required' , 'string' , 'email' , Rule::unique('authors')->ignore($this->route('author.id')) ] ,
             'password'   => 'required' ,
+            'avatar'     => 'nullable|image|mimes:png,jpg,jpeg,gif',
         ];
     }
 }
