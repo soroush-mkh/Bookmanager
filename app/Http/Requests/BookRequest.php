@@ -27,7 +27,7 @@ class BookRequest extends FormRequest
             'book_name'       => 'required|min:2|max:120' ,
             'author_id'       => 'required|numeric|exists:authors,id' ,
             'number_of_pages' => 'required|numeric' ,
-            'publisher'       => 'required|min:2|max:150' ,
+            'publisher'       => 'required|min:2|max:150|string' ,
         ];
     }
 }

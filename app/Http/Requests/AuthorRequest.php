@@ -25,20 +25,11 @@ class AuthorRequest extends FormRequest
      */
     public function rules ()
     {
-//        dd($this->route('author.id'));
-        if ( $this->isMethod('POST') )
-            return [
-                'first_name' => 'required|min:2|max:50' ,
-                'last_name'  => 'required|min:2|max:50' ,
-                'email'      => 'required|string|email|unique:authors' ,
-                'password'   => 'required|confirmed' ,
-            ];
-        else
-            return [
-                'first_name' => 'required|min:2|max:50' ,
-                'last_name'  => 'required|min:2|max:50' ,
-                'email'      => [ 'required' , 'string' , 'email' , Rule::unique('authors')->ignore($this->route('author.id')) ] ,
-                'password'   => 'required' ,
-            ];
+        return [
+            'first_name' => 'required|min:2|max:50|string' ,
+            'last_name'  => 'required|min:2|max:50|string' ,
+            'email'      => [ 'required' , 'string' , 'email' , Rule::unique('authors')->ignore($this->route('author.id')) ] ,
+            'password'   => 'required' ,
+        ];
     }
 }
