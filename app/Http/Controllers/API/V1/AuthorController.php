@@ -19,12 +19,19 @@ class AuthorController extends Controller
      */
     public function index ()
     {
-        $authors = Author::all();
+        $authors = Author::with('books')->get();
 
         if ( count($authors) )
-            return $authors;
+            return response()->json([
+                'status'  => TRUE ,
+                'data'    => $authors ,
+                'message' => 'All Books data returned successfully' ,
+            ] , JsonResponse::HTTP_OK);
         else
-            return 'There is no any author yet!';
+            return response()->json([
+                'status'  => FALSE ,
+                'message' => 'There is no any books!' ,
+            ] , JsonResponse::HTTP_OK);
     }
 
     /**
@@ -35,7 +42,6 @@ class AuthorController extends Controller
      */
     public function store ( AuthorRequest $request )
     {
-        //return $request->first_name . '-' . $request->last_name . '-' . $request->email . '-' . $request->password;
         //Create Author
         $author = new Author;
 
