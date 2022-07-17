@@ -6,9 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\AuthorRequest;
 use App\Models\Author;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 class AuthorController extends Controller
 {
@@ -50,6 +49,12 @@ class AuthorController extends Controller
         $author->email      = $request->email;
         $author->password   = Hash::make($request->password);
 
+        //save image
+        if ( $request->file('avatar') )
+        {
+            $author->avatar = $request->file('avatar')->store('public');
+        }
+
 
         //Save Data
         $author->save();
@@ -85,13 +90,22 @@ class AuthorController extends Controller
      */
     public function update ( AuthorRequest $request , Author $author )
     {
+        //Save image
+        $avatar = $author->avatar;
+        if ( $request->file('avatar') )
+        {
+            if ( $author->avatar != NULL )
+                Storage::delete($author->avatar);
+            $avatar = $request->file('avatar')->store('public');
+        }
+
         //Update Author
         $author->update([
             'first_name' => $request->first_name ,
             'last_name'  => $request->last_name ,
             'email'      => $request->email ,
             'password'   => Hash::make($request->password) ,
-
+            'avatar'     => $avatar ,
         ]);
 
         // Send Response
