@@ -20,4 +20,9 @@ class Author extends Model
         'password' ,
         'avatar' ,
     ];
+
+    public function books ()
+    {
+        return $this->hasMany(Author::class);
+    }
 }
