@@ -24,10 +24,10 @@ class BookRequest extends FormRequest
     public function rules ()
     {
         return [
-            'book_name'       => 'required|min:2|max:120' ,
+            'book_name'       => 'required|min:2|max:120|regex:/^[a-zA-Z0-9 ]+$/u' ,
             'author_id'       => 'required|numeric|exists:authors,id' ,
             'number_of_pages' => 'required|numeric' ,
-            'publisher'       => 'required|min:2|max:150|string' ,
+            'publisher'       => 'required|min:2|max:150|string|regex:/^[a-zA-Z0-9 ]+$/u' ,
         ];
     }
 }
