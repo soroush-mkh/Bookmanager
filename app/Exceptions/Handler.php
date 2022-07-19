@@ -3,7 +3,10 @@
 namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Http\JsonResponse;
 use Throwable;
+use App\Exceptions\CustomException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class Handler extends ExceptionHandler
 {
@@ -31,9 +34,9 @@ class Handler extends ExceptionHandler
      * @var array<int, string>
      */
     protected $dontFlash = [
-        'current_password',
-        'password',
-        'password_confirmation',
+        'current_password' ,
+        'password' ,
+        'password_confirmation' ,
     ];
 
     /**
@@ -41,10 +44,20 @@ class Handler extends ExceptionHandler
      *
      * @return void
      */
-    public function register()
+    public function register ()
     {
-        $this->reportable(function (Throwable $e) {
-            //
+        $this->renderable(function ( NotFoundHttpException $e , $request )
+        {
+            return response()->json([
+                'data'    => 'Not Found!' ,
+            ] , JsonResponse::HTTP_NOT_FOUND);
+        });
+
+        $this->renderable(function ( NodataException $e , $request )
+        {
+            return response()->json([
+                'data'    => 'There is no data!' ,
+            ] , JsonResponse::HTTP_NOT_FOUND);
         });
     }
 }

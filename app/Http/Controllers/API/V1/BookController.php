@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers\API\V1;
 
+use App\Exceptions\NodataException;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\v1\BookCollection;
+use App\Http\Resources\v1\BookResource;
 use App\Models\Author;
 use App\Models\Book;
 use Illuminate\Http\JsonResponse;
@@ -21,16 +24,11 @@ class BookController extends Controller
         $books = Book::all();
 
         if ( count($books) )
-            return response()->json([
-                'status'  => TRUE ,
-                'data'    => $books ,
-                'message' => 'All Books data returned successfully' ,
-            ] , JsonResponse::HTTP_OK);
+            return new BookCollection($books);
+
         else
-            return response()->json([
-                'status'  => FALSE ,
-                'message' => 'There is no any books!' ,
-            ] , JsonResponse::HTTP_OK);
+            throw new NodataException();
+
     }
 
     /**
@@ -53,11 +51,9 @@ class BookController extends Controller
         //Save Data
         $book->save();
 
-        // Send Response
-        return response()->json([
-            'status'  => TRUE ,
-            'message' => 'Author Created Successfully' ,
-        ] , JsonResponse::HTTP_OK);
+        //Return Data
+        return new BookResource($book);
+
     }
 
     /**
@@ -69,9 +65,8 @@ class BookController extends Controller
     public function show ( Book $book )
     {
         //Return Data
-        return response()->json([
-            'data' => $book ,
-        ] , JsonResponse::HTTP_OK);
+        return new BookResource($book);
+
     }
 
     /**
@@ -83,7 +78,7 @@ class BookController extends Controller
      */
     public function update ( Request $request , Book $book )
     {
-        //Update Author
+        //Update AuthorResource
         $book->update([
             'book_name'       => $request->book_name ,
             'author_id'       => $request->author_id ,
@@ -92,10 +87,8 @@ class BookController extends Controller
         ]);
 
         // Send Response
-        return response()->json([
-            'status'  => TRUE ,
-            'message' => 'Book Updated Successfully' ,
-        ] , JsonResponse::HTTP_OK);
+        return new BookResource($book);
+
     }
 
     /**
@@ -106,13 +99,11 @@ class BookController extends Controller
      */
     public function destroy ( Book $book )
     {
-        //Delete Author
+        //Delete AuthorResource
         $book->delete();
 
         // Send Response
-        return response()->json([
-            'status'  => TRUE ,
-            'message' => 'Book Deleted Successfully' ,
-        ] , JsonResponse::HTTP_OK);
+        return new BookResource($book);
+
     }
 }

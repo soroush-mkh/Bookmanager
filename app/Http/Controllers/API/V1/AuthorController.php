@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers\API\V1;
 
+use App\Exceptions\NodataException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AuthorRequest;
+use App\Http\Resources\v1\AuthorCollection;
+use App\Http\Resources\v1\AuthorResource;
+use App\Http\Resources\v1\BookCollection;
 use App\Http\Services\EmailService;
 use App\Models\Author;
 use Illuminate\Http\JsonResponse;
@@ -22,16 +26,11 @@ class AuthorController extends Controller
         $authors = Author::with('books')->get();
 
         if ( count($authors) )
-            return response()->json([
-                'status'  => TRUE ,
-                'data'    => $authors ,
-                'message' => 'All Books data returned successfully' ,
-            ] , JsonResponse::HTTP_OK);
+            return new AuthorCollection($authors);
+
         else
-            return response()->json([
-                'status'  => FALSE ,
-                'message' => 'There is no any books!' ,
-            ] , JsonResponse::HTTP_OK);
+            throw new NodataException();
+
     }
 
     /**
@@ -42,7 +41,7 @@ class AuthorController extends Controller
      */
     public function store ( AuthorRequest $request )
     {
-        //Create Author
+        //Create AuthorResource
         $author = new Author;
 
         $author->first_name = $request->first_name;
@@ -63,18 +62,17 @@ class AuthorController extends Controller
         //send Email To Admin
         $emailService = new EmailService();
         $details      = [
-            'title' => 'Author Creation.' ,
+            'title' => 'AuthorResource Creation.' ,
             'body'  => "Hello. A new author created successfully." ,
         ];
         $emailService->setDetails($details);
         $emailService->setFrom('noreply@bookmanager.com' , 'bookmanager');
-        $emailService->setSubject('Author Creation');
+        $emailService->setSubject('AuthorResource Creation');
         $emailService->setTo(auth()->user()->email);
         $emailService->fire();
 
-        // Send Response
-        return response()->json([ 'status'  => TRUE ,
-                                  'message' => 'Author Created Successfully' , ] , JsonResponse::HTTP_OK);
+        //Return Data
+        return new AuthorResource($author);
 
     }
 
@@ -84,13 +82,11 @@ class AuthorController extends Controller
      * @param \App\Models\Author $author
      * @return \Illuminate\Http\Response
      */
-    public
-    function show ( Author $author )
+    public function show ( Author $author )
     {
         //Return Data
-        return response()->json([
-            'data' => $author ,
-        ] , JsonResponse::HTTP_OK);
+        return new AuthorResource($author);
+
     }
 
     /**
@@ -100,8 +96,7 @@ class AuthorController extends Controller
      * @param \App\Models\Author       $author
      * @return \Illuminate\Http\Response
      */
-    public
-    function update ( AuthorRequest $request , Author $author )
+    public function update ( AuthorRequest $request , Author $author )
     {
         //Save image
         $avatar = $author->avatar;
@@ -112,7 +107,7 @@ class AuthorController extends Controller
             $avatar = $request->file('avatar')->store('public');
         }
 
-        //Update Author
+        //Update AuthorResource
         $author->update([
             'first_name' => $request->first_name ,
             'last_name'  => $request->last_name ,
@@ -121,11 +116,9 @@ class AuthorController extends Controller
             'avatar'     => $avatar ,
         ]);
 
-        // Send Response
-        return response()->json([
-            'status'  => TRUE ,
-            'message' => 'Author Updated Successfully' ,
-        ] , JsonResponse::HTTP_OK);
+        //Return Data
+        return new AuthorResource($author);
+
     }
 
     /**
@@ -134,16 +127,13 @@ class AuthorController extends Controller
      * @param \App\Models\Author $author
      * @return \Illuminate\Http\Response
      */
-    public
-    function destroy ( Author $author )
+    public function destroy ( Author $author )
     {
-        //Delete Author
+        //Delete AuthorResource
         $author->delete();
 
-        // Send Response
-        return response()->json([
-            'status'  => TRUE ,
-            'message' => 'Author Deleted Successfully' ,
-        ] , JsonResponse::HTTP_OK);
+        //Return Data
+        return new AuthorResource($author);
+
     }
 }
