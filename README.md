@@ -7,58 +7,130 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
-## About Laravel
+## About Bookmanager
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+This is an exmple project for save authors and books.You can save and get information with APIs.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## How to use
 
-## Learning Laravel
+1.Run git clone
+<br>
+2.Run composer install
+<br>
+3.Run cp .env.example .env and modify database and mail setting
+<br>
+4.Run php artisan key:generate
+<br>
+5.Run php artisan migrate --seed
+<br>
+6.Run php artisan serve
+<br>
+7.Go to link localhost:8000
+<br>
+8.For login use default admin email: "admin@site.com" and password : "password"
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## API Routes
 
-## Laravel Sponsors
+Admin:
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+- Login : "http://127.0.0.1:8000/api/v1/login"
+<br>
+[method: POST]
+<br>
+[header: Content-Type: alpplication/json , Accept: application/json]
+<br>
+[body : email(email), password(string)]
 
-### Premium Partners
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+- Logout : "http://127.0.0.1:8000/api/v1/logout"
+<br>
+[method: POST]
+<br>
+[header: Content-Type: alpplication/json , Accept: application/json, Authorization: Bearer [token]]
 
-## Contributing
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
 
-## Code of Conduct
+Authors:
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+- Get all informations : "http://127.0.0.1:8000/api/v1/authors"
+<br>
+[method: GET]
+<br>
+[header: Content-Type: alpplication/json , Accept: application/json, Authorization: Bearer [token]]
 
-## Security Vulnerabilities
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+- Author Store : "http://127.0.0.1:8000/api/v1/authors"
+<br>
+[method: POST]
+<br>
+[header: Content-Type: alpplication/json , Accept: application/json, Authorization: Bearer [token]]
+<br>
+[body : first_name(string), last_name(string), email(email), password(string), password_confirmation(string), avatar(image file)]
 
-## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+- Author show : "http://127.0.0.1:8000/api/v1/authors/1"
+<br>
+[method: GET]
+<br>
+[header: Content-Type: alpplication/json , Accept: application/json, Authorization: Bearer [token]]
+
+
+- Author Update : "http://127.0.0.1:8000/api/v1/authors/1?_method=PUT"
+<br>
+[method: POST]
+<br>
+[header: Content-Type: alpplication/json , Accept: application/json, Authorization: Bearer [token]]
+<br>
+[body : first_name(string), last_name(string), email(email), password(string), password_confirmation(string), avatar(image file)]
+
+
+- Author Destroy : "http://127.0.0.1:8000/api/v1/authors/1?_method=DELETE"
+<br>
+[method: POST]
+<br>
+[header: Content-Type: alpplication/json , Accept: application/json, Authorization: Bearer [token]]
+
+
+
+
+Books:
+
+- Get all informations : "http://127.0.0.1:8000/api/v1/books"
+<br>
+[method: GET]
+<br>
+[header: Content-Type: alpplication/json , Accept: application/json, Authorization: Bearer [token]]
+
+
+- Book Store : "http://127.0.0.1:8000/api/v1/books"
+<br>
+[method: POST]
+<br>
+[header: Content-Type: alpplication/json , Accept: application/json, Authorization: Bearer [token]]
+<br>
+[body : book_name(string), author_id(numeric), number_of_pages(numeric), publisher(string)]
+
+
+- Book show : "http://127.0.0.1:8000/api/v1/books/1"
+<br>
+[method: GET]
+<br>
+[header: Content-Type: alpplication/json , Accept: application/json, Authorization: Bearer [token]]
+
+
+- Book Update : "http://127.0.0.1:8000/api/v1/books/1?_method=PUT"
+<br>
+[method: POST]
+<br>
+[header: Content-Type: alpplication/json , Accept: application/json, Authorization: Bearer [token]]
+<br>
+[body : book_name(string), author_id(numeric), number_of_pages(numeric), publisher(string)]
+
+
+- Book Destroy : "http://127.0.0.1:8000/api/v1/books/1?_method=DELETE"
+<br>
+[method: POST]
+<br>
+[header: Content-Type: alpplication/json , Accept: application/json, Authorization: Bearer [token]]
