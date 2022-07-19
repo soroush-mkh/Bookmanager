@@ -35,7 +35,7 @@ This is an exmple project for save authors and books.You can save and get inform
 
 Admin:
 
-- Login : "http://127.0.0.1:8000/api/v1/login"
+Login : "http://127.0.0.1:8000/api/v1/login"
 <br>
 [method: POST]
 <br>
@@ -44,7 +44,7 @@ Admin:
 [body : email(email), password(string)]
 
 
-- Logout : "http://127.0.0.1:8000/api/v1/logout"
+Logout : "http://127.0.0.1:8000/api/v1/logout"
 <br>
 [method: POST]
 <br>
@@ -54,14 +54,14 @@ Admin:
 
 Authors:
 
-- Get all informations : "http://127.0.0.1:8000/api/v1/authors"
+Get all informations : "http://127.0.0.1:8000/api/v1/authors"
 <br>
 [method: GET]
 <br>
 [header: Content-Type: alpplication/json , Accept: application/json, Authorization: Bearer [token]]
 
 
-- Author Store : "http://127.0.0.1:8000/api/v1/authors"
+Author Store : "http://127.0.0.1:8000/api/v1/authors"
 <br>
 [method: POST]
 <br>
@@ -70,14 +70,14 @@ Authors:
 [body : first_name(string), last_name(string), email(email), password(string), password_confirmation(string), avatar(image file)]
 
 
-- Author show : "http://127.0.0.1:8000/api/v1/authors/1"
+Author show : "http://127.0.0.1:8000/api/v1/authors/1"
 <br>
 [method: GET]
 <br>
 [header: Content-Type: alpplication/json , Accept: application/json, Authorization: Bearer [token]]
 
 
-- Author Update : "http://127.0.0.1:8000/api/v1/authors/1?_method=PUT"
+Author Update : "http://127.0.0.1:8000/api/v1/authors/1?_method=PUT"
 <br>
 [method: POST]
 <br>
@@ -86,7 +86,7 @@ Authors:
 [body : first_name(string), last_name(string), email(email), password(string), password_confirmation(string), avatar(image file)]
 
 
-- Author Destroy : "http://127.0.0.1:8000/api/v1/authors/1?_method=DELETE"
+Author Destroy : "http://127.0.0.1:8000/api/v1/authors/1?_method=DELETE"
 <br>
 [method: POST]
 <br>
@@ -97,14 +97,14 @@ Authors:
 
 Books:
 
-- Get all informations : "http://127.0.0.1:8000/api/v1/books"
+Get all informations : "http://127.0.0.1:8000/api/v1/books"
 <br>
 [method: GET]
 <br>
 [header: Content-Type: alpplication/json , Accept: application/json, Authorization: Bearer [token]]
 
 
-- Book Store : "http://127.0.0.1:8000/api/v1/books"
+Book Store : "http://127.0.0.1:8000/api/v1/books"
 <br>
 [method: POST]
 <br>
@@ -113,14 +113,14 @@ Books:
 [body : book_name(string), author_id(numeric), number_of_pages(numeric), publisher(string)]
 
 
-- Book show : "http://127.0.0.1:8000/api/v1/books/1"
+Book show : "http://127.0.0.1:8000/api/v1/books/1"
 <br>
 [method: GET]
 <br>
 [header: Content-Type: alpplication/json , Accept: application/json, Authorization: Bearer [token]]
 
 
-- Book Update : "http://127.0.0.1:8000/api/v1/books/1?_method=PUT"
+Book Update : "http://127.0.0.1:8000/api/v1/books/1?_method=PUT"
 <br>
 [method: POST]
 <br>
@@ -129,7 +129,7 @@ Books:
 [body : book_name(string), author_id(numeric), number_of_pages(numeric), publisher(string)]
 
 
-- Book Destroy : "http://127.0.0.1:8000/api/v1/books/1?_method=DELETE"
+Book Destroy : "http://127.0.0.1:8000/api/v1/books/1?_method=DELETE"
 <br>
 [method: POST]
 <br>
