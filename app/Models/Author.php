@@ -12,7 +12,7 @@ class Author extends Model
 
     public $timestamps = FALSE;
 
-    protected $hidden = [ 'id' ];
+    protected $hidden = [ 'id' , 'password' ];
 
     protected $fillable = [
         'first_name' ,

@@ -3,9 +3,23 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use Laravel\Passport\HasApiTokens;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class Admin extends Model
+
+class Admin extends Authenticatable
 {
-    use HasFactory;
+    use HasFactory , HasApiTokens;
+
+    public $timestamps = FALSE;
+
+    protected $fillable = [
+        'email' ,
+        'password' ,
+    ];
+
+    protected $hidden = [
+        'password' ,
+        'remember_token',
+    ];
 }
