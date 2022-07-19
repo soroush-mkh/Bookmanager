@@ -49,14 +49,21 @@ class Handler extends ExceptionHandler
         $this->renderable(function ( NotFoundHttpException $e , $request )
         {
             return response()->json([
-                'data'    => 'Not Found!' ,
+                'error' => 'Not Found!' ,
             ] , JsonResponse::HTTP_NOT_FOUND);
         });
 
         $this->renderable(function ( NodataException $e , $request )
         {
             return response()->json([
-                'data'    => 'There is no data!' ,
+                'error' => 'There is no data!' ,
+            ] , JsonResponse::HTTP_NOT_FOUND);
+        });
+
+        $this->renderable(function ( IncorrectAuthorException $e , $request )
+        {
+            return response()->json([
+                'error' => 'author_id is incorrect!' ,
             ] , JsonResponse::HTTP_NOT_FOUND);
         });
     }

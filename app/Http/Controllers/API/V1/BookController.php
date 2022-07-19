@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API\V1;
 
+use App\Exceptions\IncorrectAuthorException;
 use App\Exceptions\NodataException;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\v1\BookCollection;
@@ -42,6 +43,9 @@ class BookController extends Controller
         //Create Book
         $book = new Book();
 
+        if ( Author::find($request->author_id) == NULL )
+            throw new IncorrectAuthorException();
+
         $book->book_name       = $request->book_name;
         $book->author_id       = $request->author_id;
         $book->number_of_pages = $request->number_of_pages;
@@ -78,6 +82,10 @@ class BookController extends Controller
      */
     public function update ( Request $request , Book $book )
     {
+
+        if ( Author::find($request->author_id) == NULL )
+            throw new IncorrectAuthorException();
+
         //Update AuthorResource
         $book->update([
             'book_name'       => $request->book_name ,
