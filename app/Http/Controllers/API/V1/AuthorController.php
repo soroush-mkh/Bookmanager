@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API\V1;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AuthorRequest;
+use App\Http\Services\EmailService;
 use App\Models\Author;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Hash;
@@ -59,11 +60,21 @@ class AuthorController extends Controller
         //Save Data
         $author->save();
 
+        //send Email To Admin
+        $emailService = new EmailService();
+        $details      = [
+            'title' => 'Author Creation.' ,
+            'body'  => "Hello. A new author created successfully." ,
+        ];
+        $emailService->setDetails($details);
+        $emailService->setFrom('noreply@bookmanager.com' , 'bookmanager');
+        $emailService->setSubject('Author Creation');
+        $emailService->setTo(auth()->user()->email);
+        $emailService->fire();
+
         // Send Response
-        return response()->json([
-            'status'  => TRUE ,
-            'message' => 'Author Created Successfully' ,
-        ] , JsonResponse::HTTP_OK);
+        return response()->json([ 'status'  => TRUE ,
+                                  'message' => 'Author Created Successfully' , ] , JsonResponse::HTTP_OK);
 
     }
 
@@ -73,7 +84,8 @@ class AuthorController extends Controller
      * @param \App\Models\Author $author
      * @return \Illuminate\Http\Response
      */
-    public function show ( Author $author )
+    public
+    function show ( Author $author )
     {
         //Return Data
         return response()->json([
@@ -88,7 +100,8 @@ class AuthorController extends Controller
      * @param \App\Models\Author       $author
      * @return \Illuminate\Http\Response
      */
-    public function update ( AuthorRequest $request , Author $author )
+    public
+    function update ( AuthorRequest $request , Author $author )
     {
         //Save image
         $avatar = $author->avatar;
@@ -121,7 +134,8 @@ class AuthorController extends Controller
      * @param \App\Models\Author $author
      * @return \Illuminate\Http\Response
      */
-    public function destroy ( Author $author )
+    public
+    function destroy ( Author $author )
     {
         //Delete Author
         $author->delete();
